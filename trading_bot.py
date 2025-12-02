@@ -47,14 +47,27 @@ class BasicBot:
     def __init__(self, api_key: str, api_secret: str, testnet: bool = True) -> None:
         self.logger = _init_logger()
 
-        # create normal client with our keys
-        self.client = Client(api_key, api_secret, testnet=testnet)
+        # 1) create client WITHOUT keys and WITHOUT testnet flag
+        #    so the internal ping() in Client.__init__ hits a public endpoint.
+        self.client = Client("", "", testnet=False)
 
-        # make sure futures requests go to the testnet endpoint when testnet=True
+        # 2) route futures calls to testnet if requested
         if testnet:
             self.client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
 
-        # try to sync clock to avoid -1021 timestamp errors
+        # 3) inject the real credentials
+        self.client.API_KEY = api_key
+        self.client.API_SECRET = api_secret
+
+        # IMPORTANT: also update the HTTP header that actually sends the key
+        self.client.session.headers.update({"X-MBX-APIKEY": api_key})
+
+        # store for possible debugging
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.testnet = testnet
+
+        # 4) sync time to reduce -1021 timestamp errors
         self._sync_time_with_server()
 
         self.logger.info("BasicBot started (testnet=%s)", testnet)
