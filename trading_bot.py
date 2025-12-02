@@ -10,15 +10,14 @@ from binance.exceptions import BinanceAPIException, BinanceRequestException
 from config import API_KEY, API_SECRET, USE_TESTNET
 
 
-# basic logger setup so that we don't spam print()
+# simple logger so we don't spam print() everywhere
 def _init_logger() -> logging.Logger:
-    # make sure logs folder exists
     os.makedirs("logs", exist_ok=True)
 
     logger = logging.getLogger("futures_bot")
     logger.setLevel(logging.INFO)
 
-    # if logger already has handlers, don't add again (happens with Streamlit reloads)
+    # avoid adding handlers twice (streamlit reload, etc.)
     if logger.handlers:
         return logger
 
@@ -42,37 +41,36 @@ def _init_logger() -> logging.Logger:
 class BasicBot:
     """
     Very small wrapper around python-binance client.
-    Just enough for this assignment: account info + a couple of order types.
+    Just enough for this assignment: account info + a few order types.
     """
 
     def __init__(self, api_key: str, api_secret: str, testnet: bool = True) -> None:
         self.logger = _init_logger()
 
-        # create underlying client
+        # create normal client with our keys
         self.client = Client(api_key, api_secret, testnet=testnet)
 
-        # point futures endpoints to testnet host (for safety)
+        # make sure futures requests go to the testnet endpoint when testnet=True
         if testnet:
             self.client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
 
-        # try to sync local time with Binance to avoid -1021 timestamp errors
+        # try to sync clock to avoid -1021 timestamp errors
         self._sync_time_with_server()
 
         self.logger.info("BasicBot started (testnet=%s)", testnet)
 
     def _sync_time_with_server(self) -> None:
         """
-        Adjust client's timestamp offset so our requests line up with Binance time.
-        If this fails for some reason, we just log and continue.
+        Adjust client's timestamp offset so our signed requests line up with Binance time.
+        If this fails we just log a warning and continue.
         """
         try:
             server_time = self.client.get_server_time()
             local_ms = int(time.time() * 1000)
             offset = server_time["serverTime"] - local_ms
-            # python-binance checks this offset before sending signed requests
             self.client.timestamp_offset = offset
             self.logger.info("Timestamp offset set to %s ms", offset)
-        except Exception as exc:  # best-effort only
+        except Exception as exc:
             self.logger.warning("Could not sync time with Binance: %s", exc)
 
     def get_account_info(self) -> Dict[str, Any]:
@@ -195,8 +193,7 @@ class BasicBot:
 
 def create_bot_from_config() -> BasicBot:
     """
-    Convenience helper so other modules don't need to know
-    where API keys are coming from.
+    Helper so other modules don't need to know where API keys come from.
     """
     return BasicBot(
         api_key=API_KEY,
