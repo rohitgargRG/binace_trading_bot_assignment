@@ -1,0 +1,177 @@
+2025-12-02 15:54:49,768 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 15:54:49,769 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.001
+2025-12-02 15:54:50,216 - ERROR - trading_bot - Error placing market order: APIError(code=-4164): Order's notional must be no smaller than 100 (unless you choose reduce only).
+2025-12-02 15:57:12,646 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 15:57:12,647 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.002
+2025-12-02 15:57:13,316 - INFO - trading_bot - Market order placed successfully: {'orderId': 10631174435, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJf723b108a85cbb9e64e23a', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.002', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764671231861}
+2025-12-02 15:57:46,780 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 15:57:46,781 - INFO - trading_bot - Placing LIMIT order: symbol=BTCUSDT, side=SELL, qty=0.001, price=85000.0, tif=GTC
+2025-12-02 15:57:47,221 - ERROR - trading_bot - Error placing limit order: APIError(code=-4164): Order's notional must be no smaller than 100 (unless you choose reduce only).
+2025-12-02 15:58:08,949 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 15:58:08,952 - INFO - trading_bot - Placing LIMIT order: symbol=BTCUSDT, side=SELL, qty=0.002, price=85000.0, tif=GTC
+2025-12-02 15:58:09,351 - ERROR - trading_bot - Error placing limit order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:01:20,186 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:01:20,187 - INFO - trading_bot - Placing LIMIT order: symbol=BTCUSDT, side=SELL, qty=0.002, price=85000.0, tif=GTC
+2025-12-02 16:01:20,779 - INFO - trading_bot - Limit order placed successfully: {'orderId': 10631176041, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ1fcd2d5df6fed5e9e661b1', 'price': '85000.00', 'avgPrice': '0.00', 'origQty': '0.002', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764671479259}
+2025-12-02 16:01:35,871 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:01:36,280 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.002
+2025-12-02 16:01:36,619 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:20:08,710 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:20,693 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:31,324 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:31,742 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:31,913 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:32,219 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:32,617 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:38,830 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:39,461 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.005
+2025-12-02 16:20:39,806 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:20:52,526 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:52,727 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:52,940 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:53,070 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:53,216 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:53,421 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:53,552 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:56,123 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:20:56,622 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.012000000000000004
+2025-12-02 16:20:56,830 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:21:15,249 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:17,786 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:18,438 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.002
+2025-12-02 16:21:18,635 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:21:27,487 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:30,375 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:30,774 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=SELL, qty=0.002
+2025-12-02 16:21:31,006 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:21:33,720 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:37,538 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:21:37,939 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.002
+2025-12-02 16:21:38,204 - ERROR - trading_bot - Error placing market order: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+2025-12-02 16:23:40,062 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:23:47,697 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:23:48,459 - INFO - trading_bot - Initialized BasicBot (testnet=True)
+2025-12-02 16:23:49,106 - INFO - trading_bot - Placing MARKET order: symbol=BTCUSDT, side=BUY, qty=0.002
+2025-12-02 16:23:49,372 - INFO - trading_bot - Market order placed successfully: {'orderId': 10631187607, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJedb90a4fd61704f1033817', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.002', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764672829210}
+2025-12-02 16:37:48,582 - INFO - futures_bot - Timestamp offset set to -72 ms
+2025-12-02 16:37:48,583 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:37:59,100 - INFO - futures_bot - Timestamp offset set to -72 ms
+2025-12-02 16:37:59,101 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:37:59,689 - INFO - futures_bot - Timestamp offset set to -77 ms
+2025-12-02 16:37:59,689 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:38:02,337 - INFO - futures_bot - Timestamp offset set to -69 ms
+2025-12-02 16:38:02,338 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:38:04,757 - INFO - futures_bot - Timestamp offset set to -69 ms
+2025-12-02 16:38:04,758 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:38:05,415 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.002
+2025-12-02 16:38:05,602 - INFO - futures_bot - Market order accepted: {'orderId': 10631195268, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ7dbcd17a25b560b4d4fc68', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.002', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764673685525}
+2025-12-02 16:38:11,607 - INFO - futures_bot - Timestamp offset set to -71 ms
+2025-12-02 16:38:11,608 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:38:11,976 - INFO - futures_bot - Fetched futures account info
+2025-12-02 16:38:40,081 - INFO - futures_bot - Timestamp offset set to -73 ms
+2025-12-02 16:38:40,082 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:49:53,805 - INFO - futures_bot - Timestamp offset set to -81 ms
+2025-12-02 16:49:53,808 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:34,940 - INFO - futures_bot - Timestamp offset set to -76 ms
+2025-12-02 16:51:34,941 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:38,785 - INFO - futures_bot - Timestamp offset set to -65 ms
+2025-12-02 16:51:38,786 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:39,005 - INFO - futures_bot - Timestamp offset set to -64 ms
+2025-12-02 16:51:39,006 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:39,290 - INFO - futures_bot - Timestamp offset set to -61 ms
+2025-12-02 16:51:39,291 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:39,921 - INFO - futures_bot - Timestamp offset set to -83 ms
+2025-12-02 16:51:39,922 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 16:51:40,637 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 16:51:41,130 - INFO - futures_bot - Market order accepted: {'orderId': 10631201914, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ986c794b66fddf9d1d81c3', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.003', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764674501026}
+2025-12-02 17:02:00,120 - INFO - futures_bot - Timestamp offset set to -60 ms
+2025-12-02 17:02:00,121 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:02:05,670 - INFO - futures_bot - Timestamp offset set to -69 ms
+2025-12-02 17:02:05,670 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:02:06,120 - INFO - futures_bot - Timestamp offset set to -58 ms
+2025-12-02 17:02:06,122 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:02:06,201 - INFO - futures_bot - Timestamp offset set to -58 ms
+2025-12-02 17:02:06,201 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:02:07,709 - INFO - futures_bot - Timestamp offset set to -60 ms
+2025-12-02 17:02:07,710 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:02:08,391 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:02:08,579 - ERROR - futures_bot - Market order failed: APIError(code=-2014): API-key format invalid.
+2025-12-02 17:05:07,250 - INFO - futures_bot - Timestamp offset set to -59 ms
+2025-12-02 17:05:07,251 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:05:07,994 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:05:08,189 - ERROR - futures_bot - Market order failed: APIError(code=-2014): API-key format invalid.
+2025-12-02 17:08:46,140 - INFO - futures_bot - Timestamp offset set to -56 ms
+2025-12-02 17:08:46,141 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:08:49,849 - INFO - futures_bot - Timestamp offset set to -60 ms
+2025-12-02 17:08:49,851 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:08:50,069 - INFO - futures_bot - Timestamp offset set to -53 ms
+2025-12-02 17:08:50,071 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:08:50,174 - INFO - futures_bot - Timestamp offset set to -50 ms
+2025-12-02 17:08:50,174 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:08:51,800 - INFO - futures_bot - Timestamp offset set to -58 ms
+2025-12-02 17:08:51,801 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:08:52,262 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:08:52,525 - INFO - futures_bot - Market order accepted: {'orderId': 10631209560, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJf7e2a5c32196bea8fb6d62', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.003', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764675532416}
+2025-12-02 17:21:04,700 - INFO - futures_bot - Timestamp offset set to -54 ms
+2025-12-02 17:21:04,703 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:21:09,765 - INFO - futures_bot - Timestamp offset set to -56 ms
+2025-12-02 17:21:09,766 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:21:10,633 - INFO - futures_bot - Timestamp offset set to -55 ms
+2025-12-02 17:21:10,635 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:21:10,847 - INFO - futures_bot - Timestamp offset set to -48 ms
+2025-12-02 17:21:10,848 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:21:11,683 - INFO - futures_bot - Timestamp offset set to -43 ms
+2025-12-02 17:21:11,684 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:21:13,158 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:21:14,836 - INFO - futures_bot - Market order accepted: {'orderId': 10631213669, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ22aa627f2935dd3808d2b7', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.003', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764676274788}
+2025-12-02 17:31:35,430 - INFO - futures_bot - Timestamp offset set to -37 ms
+2025-12-02 17:31:35,433 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:31:38,426 - INFO - futures_bot - Timestamp offset set to -37 ms
+2025-12-02 17:31:38,428 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:31:38,664 - INFO - futures_bot - Timestamp offset set to -41 ms
+2025-12-02 17:31:38,665 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:31:38,819 - INFO - futures_bot - Timestamp offset set to -44 ms
+2025-12-02 17:31:38,821 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:31:42,082 - INFO - futures_bot - Timestamp offset set to -51 ms
+2025-12-02 17:31:42,083 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:31:42,857 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:31:43,063 - ERROR - futures_bot - Market order failed: APIError(code=-2014): API-key format invalid.
+2025-12-02 17:32:14,953 - INFO - futures_bot - Timestamp offset set to -58 ms
+2025-12-02 17:32:14,954 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:32:18,173 - INFO - futures_bot - Timestamp offset set to -59 ms
+2025-12-02 17:32:18,174 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:32:18,334 - INFO - futures_bot - Timestamp offset set to -49 ms
+2025-12-02 17:32:18,335 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:32:18,773 - INFO - futures_bot - Timestamp offset set to -45 ms
+2025-12-02 17:32:18,774 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:32:20,606 - INFO - futures_bot - Timestamp offset set to -142 ms
+2025-12-02 17:32:20,607 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:32:20,993 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:32:21,178 - ERROR - futures_bot - Market order failed: APIError(code=-2014): API-key format invalid.
+2025-12-02 17:37:10,277 - INFO - futures_bot - Timestamp offset set to -43 ms
+2025-12-02 17:37:10,279 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:37:14,861 - INFO - futures_bot - Timestamp offset set to -43 ms
+2025-12-02 17:37:14,862 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:37:15,227 - INFO - futures_bot - Timestamp offset set to -65 ms
+2025-12-02 17:37:15,228 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:37:15,701 - INFO - futures_bot - Timestamp offset set to -49 ms
+2025-12-02 17:37:15,702 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:37:17,564 - INFO - futures_bot - Timestamp offset set to -69 ms
+2025-12-02 17:37:17,564 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:37:18,367 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:37:18,844 - INFO - futures_bot - Market order accepted: {'orderId': 10631220826, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ3e66c496a9caf769563aee', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.003', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764677238732}
+2025-12-02 17:52:45,841 - INFO - futures_bot - Timestamp offset set to -30 ms
+2025-12-02 17:52:45,844 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:53:26,594 - INFO - futures_bot - Timestamp offset set to -28 ms
+2025-12-02 17:53:26,595 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:53:26,767 - INFO - futures_bot - Timestamp offset set to -27 ms
+2025-12-02 17:53:26,769 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:53:27,243 - INFO - futures_bot - Timestamp offset set to -28 ms
+2025-12-02 17:53:27,244 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:53:28,591 - INFO - futures_bot - Timestamp offset set to -27 ms
+2025-12-02 17:53:28,592 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:53:29,422 - INFO - futures_bot - Sending MARKET order: symbol=BTCUSDT side=BUY qty=0.003
+2025-12-02 17:53:29,611 - INFO - futures_bot - Market order accepted: {'orderId': 10631226750, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ7441865ef5751cf5006375', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.003', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1764678209578}
+2025-12-02 17:54:05,744 - INFO - futures_bot - Timestamp offset set to -31 ms
+2025-12-02 17:54:05,745 - INFO - futures_bot - BasicBot started (testnet=True)
+2025-12-02 17:54:06,142 - INFO - futures_bot - Fetched futures account info

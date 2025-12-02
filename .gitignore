@@ -41,8 +41,8 @@ secret_key.txt
 # ----------------------
 # Logs
 # ----------------------
-logs/
-*.log
+# logs/
+# *.log
 
 # ----------------------
 # Jupyter / IPython
