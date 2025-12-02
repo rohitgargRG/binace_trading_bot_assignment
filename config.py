@@ -1,11 +1,18 @@
+# config.py
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # loads from .env
+# load .env once at startup
+load_dotenv()
 
-BINANCE_API_KEY = os.getenv("BINANCE_API_KEY")
-BINANCE_API_SECRET = os.getenv("BINANCE_API_SECRET")
-BINANCE_TESTNET = os.getenv("BINANCE_TESTNET", "true").lower() == "true"
+# pull API keys from the environment
+API_KEY = os.getenv("BINANCE_API_KEY")
+API_SECRET = os.getenv("BINANCE_API_SECRET")
 
-if not BINANCE_API_KEY or not BINANCE_API_SECRET:
-    raise ValueError("API key/secret missing. Set them in .env")
+# simple flag to switch between testnet/mainnet
+# default stays True because this project is for testnet
+USE_TESTNET = os.getenv("BINANCE_TESTNET", "true").strip().lower() == "true"
+
+# quick sanity check so the app fails early if keys are missing
+if not API_KEY or not API_SECRET:
+    raise RuntimeError("Missing API key/secret. Make sure .env is set correctly.")

@@ -2,128 +2,137 @@ import argparse
 import sys
 
 from binance.exceptions import BinanceAPIException, BinanceRequestException
-from trading_bot import create_bot_from_config 
+from trading_bot import create_bot_from_config
 
 
-def positive_float(value: str) -> float:
-    """Argparse type: positive float."""
+def parse_positive_float(value: str) -> float:
+    """Helper for argparse: expects a float > 0."""
     try:
-        f = float(value)
+        val = float(value)
     except ValueError:
-        raise argparse.ArgumentTypeError(f"Invalid float value: {value}")
-    if f <= 0:
-        raise argparse.ArgumentTypeError("Value must be positive")
-    return f
+        raise argparse.ArgumentTypeError(f"could not convert '{value}' to float")
+    if val <= 0:
+        raise argparse.ArgumentTypeError("value must be greater than zero")
+    return val
 
 
-def parse_args():
+def get_arguments():
+    """
+    Small wrapper around argparse, just to keep main() a bit cleaner.
+    """
     parser = argparse.ArgumentParser(
-        description="Simple Binance Futures Testnet Trading Bot"
+        description="Tiny Binance Futures Testnet trading helper (CLI)."
     )
 
     parser.add_argument(
         "--symbol",
         required=True,
-        help="Trading pair symbol, e.g. BTCUSDT",
+        help="pair to trade, e.g. BTCUSDT",
     )
     parser.add_argument(
         "--side",
         required=True,
         choices=["BUY", "SELL"],
-        help="Order side",
+        help="BUY or SELL",
     )
     parser.add_argument(
         "--type",
         required=True,
         choices=["MARKET", "LIMIT", "STOP_LIMIT"],
-        help="Order type",
+        help="order type",
     )
     parser.add_argument(
         "--quantity",
         required=True,
-        type=positive_float,
-        help="Order quantity",
+        type=parse_positive_float,
+        help="quantity to trade",
     )
     parser.add_argument(
         "--price",
-        type=positive_float,
-        help="Limit/Stop-Limit order price (required for LIMIT/STOP_LIMIT)",
+        type=parse_positive_float,
+        help="limit price (needed for LIMIT and STOP_LIMIT)",
     )
     parser.add_argument(
         "--stop_price",
-        type=positive_float,
-        help="Stop price (required for STOP_LIMIT)",
+        type=parse_positive_float,
+        help="stop price (only for STOP_LIMIT)",
     )
     parser.add_argument(
         "--tif",
         default="GTC",
         choices=["GTC", "IOC", "FOK"],
-        help="Time in force (for LIMIT/STOP_LIMIT)",
+        help="time in force, default GTC",
     )
 
     return parser.parse_args()
 
 
-def check_min_notional(bot, symbol: str, quantity: float, price: float | None):
+def validate_notional(bot, symbol: str, qty: float, price: float | None) -> bool:
     """
-    Pre-check: ensure notional >= 100 USDT.
-    If price is None (MARKET), use mark price from futures_mark_price.
+    Quick sanity check: Binance Futures usually wants notional >= 100 USDT.
+    If price is None (MARKET order), use current mark price from the API.
+    Returns True if notional looks OK, False otherwise.
     """
     try:
         if price is None:
-            # For MARKET orders, approximate with current mark price
-            mark_data = bot.client.futures_mark_price(symbol=symbol)
-            used_price = float(mark_data["markPrice"])
+            mark_info = bot.client.futures_mark_price(symbol=symbol)
+            px = float(mark_info["markPrice"])
         else:
-            used_price = float(price)
+            px = float(price)
 
-        notional = used_price * quantity
-    except Exception as e:
-        # If this fails (network, symbol error, etc.), just warn and skip precheck
-        print("⚠️ Warning: Could not fetch mark price for pre-check:", e)
-        return
+        notional = px * qty
+    except Exception as exc:
+        # if we cannot check for some reason, don't completely block the order
+        print("Warning: could not check notional size:", exc)
+        return True
 
     if notional < 100:
-        print("\n❌ Order NOT sent:")
-        print(f"Your order notional = {notional:.2f} USDT (price × quantity).")
-        print("Binance Futures Testnet requires notional >= 100 USDT for new positions.")
-        print("👉 Try increasing quantity or using a cheaper symbol.")
-        sys.exit(1)
+        print()
+        print("Order not sent:")
+        print(f"  estimated notional = {notional:.2f} USDT (price * quantity)")
+        print("  Binance Futures Testnet expects notional >= 100 USDT.")
+        print("  Try increasing quantity or using a cheaper symbol.")
+        return False
+
+    return True
 
 
-def print_order_result(order: dict):
-    """Pretty-print key order fields."""
-    print("\n=== ORDER RESULT ===")
-    print(f"Symbol:     {order.get('symbol')}")
-    print(f"Side:       {order.get('side')}")
-    print(f"Type:       {order.get('type')}")
-    print(f"Status:     {order.get('status')}")
-    print(f"Order ID:   {order.get('orderId')}")
-    print(f"Client ID:  {order.get('clientOrderId')}")
-    print(f"Price:      {order.get('price')}")
-    print(f"OrigQty:    {order.get('origQty')}")
-    print(f"Executed:   {order.get('executedQty')}")
-    print(f"Time:       {order.get('updateTime')}")
+def show_order_summary(order: dict) -> None:
+    """Print a few fields from the order response so it's easy to read."""
+    print("\n--- Order Result ---")
+    print(f"Symbol      : {order.get('symbol')}")
+    print(f"Side        : {order.get('side')}")
+    print(f"Type        : {order.get('type')}")
+    print(f"Status      : {order.get('status')}")
+    print(f"Order ID    : {order.get('orderId')}")
+    print(f"Client ID   : {order.get('clientOrderId')}")
+    print(f"Price       : {order.get('price')}")
+    print(f"Orig Qty    : {order.get('origQty')}")
+    print(f"Executed Qty: {order.get('executedQty')}")
+    print(f"Update Time : {order.get('updateTime')}")
 
 
 def main():
-    args = parse_args()
+    args = get_arguments()
     bot = create_bot_from_config()
 
-    # Validate required params for each type
+    # basic argument checks depending on the order type
     if args.type == "LIMIT" and args.price is None:
-        print("❌ Error: --price is required for LIMIT orders.")
+        print("Error: --price is required for LIMIT orders.")
         sys.exit(1)
 
     if args.type == "STOP_LIMIT" and (args.price is None or args.stop_price is None):
-        print("❌ Error: --price and --stop_price are required for STOP_LIMIT orders.")
+        print("Error: --price and --stop_price are required for STOP_LIMIT orders.")
         sys.exit(1)
 
-    # Pre-check notional to avoid Binance error -4164
+    # notional check before even talking to Binance
     if args.type == "MARKET":
-        check_min_notional(bot, args.symbol, args.quantity, price=None)
-    elif args.type in ("LIMIT", "STOP_LIMIT"):
-        check_min_notional(bot, args.symbol, args.quantity, price=args.price)
+        ok = validate_notional(bot, args.symbol, args.quantity, price=None)
+    else:
+        ok = validate_notional(bot, args.symbol, args.quantity, price=args.price)
+
+    if not ok:
+        sys.exit(1)
 
     try:
         if args.type == "MARKET":
@@ -132,7 +141,6 @@ def main():
                 side=args.side,
                 quantity=args.quantity,
             )
-
         elif args.type == "LIMIT":
             order = bot.place_limit_order(
                 symbol=args.symbol,
@@ -141,7 +149,6 @@ def main():
                 price=args.price,
                 time_in_force=args.tif,
             )
-
         elif args.type == "STOP_LIMIT":
             order = bot.place_stop_limit_order(
                 symbol=args.symbol,
@@ -151,31 +158,29 @@ def main():
                 stop_price=args.stop_price,
                 time_in_force=args.tif,
             )
-
         else:
-            print(f"❌ Unsupported order type: {args.type}")
+            print(f"Unsupported order type: {args.type}")
             sys.exit(1)
 
-        print_order_result(order)
+        show_order_summary(order)
 
-    except BinanceAPIException as e:
-        print("\n❌ Order rejected by Binance:")
-        print(f"Code:    {e.code}")
-        print(f"Message: {e.message}")
+    except BinanceAPIException as exc:
+        print("\nOrder rejected by Binance:")
+        print(f"  code   : {exc.code}")
+        print(f"  message: {exc.message}")
 
-        # Special explanation for the error you got
-        if e.code == -4164:
-            print("\nThis means your order's notional (price × quantity) is < 100 USDT.")
-            print("Binance Futures requires notional ≥ 100 USDT for opening a position.")
-            print("👉 Increase quantity, or use a cheaper symbol (like ETHUSDT, XRPUSDT, etc.).")
+        if exc.code == -4164:
+            print()
+            print("This usually means price * quantity is below 100 USDT.")
+            print("Adjust the size or pick another symbol and try again.")
 
-    except BinanceRequestException as e:
-        print("\n❌ Network / request error when talking to Binance:")
-        print(e)
+    except BinanceRequestException as exc:
+        print("\nNetwork error while talking to Binance:")
+        print(" ", exc)
 
-    except Exception as e:
-        print("\n❌ Unexpected error:")
-        print(e)
+    except Exception as exc:
+        print("\nUnexpected error:")
+        print(" ", exc)
 
 
 if __name__ == "__main__":

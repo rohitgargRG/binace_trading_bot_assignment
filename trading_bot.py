@@ -1,33 +1,37 @@
-from binance import Client
-from binance.exceptions import BinanceAPIException, BinanceRequestException
-from config import BINANCE_API_KEY, BINANCE_API_SECRET, BINANCE_TESTNET
-from typing import Optional, Dict, Any
 import logging
 from logging.handlers import RotatingFileHandler
 import os
+import time
+from typing import Dict, Any
+
+from binance import Client
+from binance.exceptions import BinanceAPIException, BinanceRequestException
+
+from config import API_KEY, API_SECRET, USE_TESTNET
 
 
-
-
-def setup_logger() -> logging.Logger:
+# basic logger setup so that we don't spam print()
+def _init_logger() -> logging.Logger:
+    # make sure logs folder exists
     os.makedirs("logs", exist_ok=True)
-    logger = logging.getLogger("trading_bot")
+
+    logger = logging.getLogger("futures_bot")
     logger.setLevel(logging.INFO)
 
+    # if logger already has handlers, don't add again (happens with Streamlit reloads)
     if logger.handlers:
         return logger
 
-    file_handler = RotatingFileHandler("logs/bot.log", maxBytes=1_000_000, backupCount=3)
-    file_handler.setLevel(logging.INFO)
-
+    file_handler = RotatingFileHandler(
+        "logs/bot.log", maxBytes=1_000_000, backupCount=3
+    )
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
 
-    formatter = logging.Formatter(
+    fmt = logging.Formatter(
         "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
     )
-    file_handler.setFormatter(formatter)
-    console_handler.setFormatter(formatter)
+    file_handler.setFormatter(fmt)
+    console_handler.setFormatter(fmt)
 
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
@@ -36,25 +40,49 @@ def setup_logger() -> logging.Logger:
 
 
 class BasicBot:
-    def __init__(self, api_key: str, api_secret: str, testnet: bool = True):
-        self.logger = setup_logger()
+    """
+    Very small wrapper around python-binance client.
+    Just enough for this assignment: account info + a couple of order types.
+    """
 
+    def __init__(self, api_key: str, api_secret: str, testnet: bool = True) -> None:
+        self.logger = _init_logger()
+
+        # create underlying client
         self.client = Client(api_key, api_secret, testnet=testnet)
 
-        # IMPORTANT: set Futures testnet URL
+        # point futures endpoints to testnet host (for safety)
         if testnet:
             self.client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
 
-        self.logger.info(f"Initialized BasicBot (testnet={testnet})")
+        # try to sync local time with Binance to avoid -1021 timestamp errors
+        self._sync_time_with_server()
+
+        self.logger.info("BasicBot started (testnet=%s)", testnet)
+
+    def _sync_time_with_server(self) -> None:
+        """
+        Adjust client's timestamp offset so our requests line up with Binance time.
+        If this fails for some reason, we just log and continue.
+        """
+        try:
+            server_time = self.client.get_server_time()
+            local_ms = int(time.time() * 1000)
+            offset = server_time["serverTime"] - local_ms
+            # python-binance checks this offset before sending signed requests
+            self.client.timestamp_offset = offset
+            self.logger.info("Timestamp offset set to %s ms", offset)
+        except Exception as exc:  # best-effort only
+            self.logger.warning("Could not sync time with Binance: %s", exc)
 
     def get_account_info(self) -> Dict[str, Any]:
-        """Fetch futures account balance/info."""
+        """Return futures account information (balances, positions etc.)."""
         try:
-            info = self.client.futures_account()
-            self.logger.info(f"Account info fetched successfully")
-            return info
-        except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.error(f"Error fetching account info: {e}")
+            data = self.client.futures_account()
+            self.logger.info("Fetched futures account info")
+            return data
+        except (BinanceAPIException, BinanceRequestException) as exc:
+            self.logger.error("Error while fetching account info: %s", exc)
             raise
 
     def place_market_order(
@@ -64,11 +92,14 @@ class BasicBot:
         quantity: float,
     ) -> Dict[str, Any]:
         """
-        Place a futures market order.
-        side: 'BUY' or 'SELL'
+        Send a simple MARKET order.
+        side should be either 'BUY' or 'SELL'.
         """
         self.logger.info(
-            f"Placing MARKET order: symbol={symbol}, side={side}, qty={quantity}"
+            "Sending MARKET order: symbol=%s side=%s qty=%s",
+            symbol,
+            side,
+            quantity,
         )
         try:
             order = self.client.futures_create_order(
@@ -76,11 +107,12 @@ class BasicBot:
                 side=side,
                 type="MARKET",
                 quantity=quantity,
+                recvWindow=5000,  # small grace window for time drift
             )
-            self.logger.info(f"Market order placed successfully: {order}")
+            self.logger.info("Market order accepted: %s", order)
             return order
-        except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.error(f"Error placing market order: {e}")
+        except (BinanceAPIException, BinanceRequestException) as exc:
+            self.logger.error("Market order failed: %s", exc)
             raise
 
     def place_limit_order(
@@ -92,12 +124,16 @@ class BasicBot:
         time_in_force: str = "GTC",
     ) -> Dict[str, Any]:
         """
-        Place a futures limit order.
-        time_in_force: 'GTC', 'IOC', 'FOK'
+        Standard LIMIT order.
+        time_in_force usually: 'GTC', 'IOC', or 'FOK'.
         """
         self.logger.info(
-            f"Placing LIMIT order: symbol={symbol}, side={side}, "
-            f"qty={quantity}, price={price}, tif={time_in_force}"
+            "Sending LIMIT order: %s %s qty=%s @ price=%s tif=%s",
+            symbol,
+            side,
+            quantity,
+            price,
+            time_in_force,
         )
         try:
             order = self.client.futures_create_order(
@@ -106,15 +142,15 @@ class BasicBot:
                 type="LIMIT",
                 timeInForce=time_in_force,
                 quantity=quantity,
-                price=str(price),
+                price=str(price),  # Binance expects string for price
+                recvWindow=5000,
             )
-            self.logger.info(f"Limit order placed successfully: {order}")
+            self.logger.info("Limit order accepted: %s", order)
             return order
-        except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.error(f"Error placing limit order: {e}")
+        except (BinanceAPIException, BinanceRequestException) as exc:
+            self.logger.error("Limit order failed: %s", exc)
             raise
 
-    # Optional: Stop-Limit example
     def place_stop_limit_order(
         self,
         symbol: str,
@@ -125,11 +161,18 @@ class BasicBot:
         time_in_force: str = "GTC",
     ) -> Dict[str, Any]:
         """
-        Place a STOP-LIMIT order (Futures).
+        Simple STOP-LIMIT style order.
+        stop_price: trigger level
+        price:      actual limit price once triggered
         """
         self.logger.info(
-            f"Placing STOP-LIMIT order: symbol={symbol}, side={side}, qty={quantity}, "
-            f"price={price}, stop_price={stop_price}, tif={time_in_force}"
+            "Sending STOP-LIMIT: %s %s qty=%s limit=%s stop=%s tif=%s",
+            symbol,
+            side,
+            quantity,
+            price,
+            stop_price,
+            time_in_force,
         )
         try:
             order = self.client.futures_create_order(
@@ -141,18 +184,22 @@ class BasicBot:
                 price=str(price),
                 stopPrice=str(stop_price),
                 workingType="MARK_PRICE",
+                recvWindow=5000,
             )
-            self.logger.info(f"Stop-Limit order placed successfully: {order}")
+            self.logger.info("Stop-limit order accepted: %s", order)
             return order
-        except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.error(f"Error placing stop-limit order: {e}")
+        except (BinanceAPIException, BinanceRequestException) as exc:
+            self.logger.error("Stop-limit order failed: %s", exc)
             raise
 
 
-# Helper to create a bot instance using config
 def create_bot_from_config() -> BasicBot:
+    """
+    Convenience helper so other modules don't need to know
+    where API keys are coming from.
+    """
     return BasicBot(
-        api_key=BINANCE_API_KEY,
-        api_secret=BINANCE_API_SECRET,
-        testnet=BINANCE_TESTNET,
+        api_key=API_KEY,
+        api_secret=API_SECRET,
+        testnet=USE_TESTNET,
     )
