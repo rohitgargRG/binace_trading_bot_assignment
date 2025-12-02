@@ -1,0 +1,56 @@
+# ----------------------
+# Python Cache / Build
+# ----------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ----------------------
+# Virtual Environment
+# ----------------------
+venv/
+env/
+ENV/
+.venv/
+
+# ----------------------
+# OS / Editor Files
+# ----------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ----------------------
+# Environment / Secrets
+# ----------------------
+.env
+*.env
+
+# DO NOT UPLOAD API KEYS
+api_key.txt
+secret_key.txt
+
+# ----------------------
+# Logs
+# ----------------------
+logs/
+*.log
+
+# ----------------------
+# Jupyter / IPython
+# ----------------------
+.ipynb_checkpoints/
+
+# ----------------------
+# Project-specific
+# ----------------------
+# local test results
+test_results/
